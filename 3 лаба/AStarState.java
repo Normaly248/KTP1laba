@@ -5,12 +5,14 @@
  * the basic operations that the A* pathfinding algorithm needs to perform its
  * processing.
  **/
+import java.util.*;
 public class AStarState
 {
     /** This is a reference to the map that the A* algorithm is navigating. **/
     private Map2D map;
-    HashMap<Location,Waypoint> open = new HashMap<>();
-    HashMap<Location,Waypoint> close = new HashMap<>();
+    private Map<Location, Waypoint> open=new HashMap<Location, Waypoint>();
+    private Map<Location, Waypoint> close=new HashMap<Location, Waypoint>();
+
     /**
      * Initialize a new state object for the A* pathfinding algorithm to use.
      **/
@@ -21,52 +23,7 @@ public class AStarState
 
         this.map = map;
     }
-    public int numOpenWaypoints()
-    {
-        return open.size;
-    }
-    public Waypoint getMinOpenWaypoint()
-    {
-        Waypoint minimumCostPoint = null;
-        if (!open.isEmpty())
-            {
-            double miniCost = Double.MAX_VALUE;
-            for(Waypoint cWaypoint: open.values())
-            if (cWaypoint.getTotalCost()< miniCost){
-                miniCost = cWaypoint.getTotalCost();
-                minimumCostPoint = cWaypoint;
-            }
-        }
-        return minimumCostPoint;
 
-    }
-    public boolean isLocationClosed(Location loc)
-    {
-        return close.containsKey(Loc);
-    }
-    public void closeWaypoint(Location loc)
-    {
-
-        Waypoint wp=open.remove(loc);
-        close.put(loc, wp);
-    }
-    public boolean addOpenWaypoint(Waypoint newWP)
-    {
-        if(open.containsKey(newWP.getLocation()))
-        {
-            if(newWP.getPreviousCost() < open.get(newWP.getLocation()).getPreviousCost())
-            {
-                open.put(newWP.getLocation(), newWP);
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            open.put(newWP.getLocation(), newWP);
-            return true;
-        }
-    }
     /** Returns the map that the A* pathfinder is navigating. **/
     public Map2D getMap()
     {
@@ -80,8 +37,16 @@ public class AStarState
      **/
     public Waypoint getMinOpenWaypoint()
     {
-        // TODO:  Implement.
-        return null;
+        Waypoint minimumCostPoint = null;
+        if (!open.isEmpty()){
+            double miniCost = Double.MAX_VALUE;
+            for(Waypoint cWaypoint: open.values())
+            if (cWaypoint.getTotalCost()< miniCost){
+                miniCost = cWaypoint.getTotalCost();
+                minimumCostPoint = cWaypoint;
+            }
+        }
+        return minimumCostPoint;
     }
 
     /**
@@ -95,16 +60,25 @@ public class AStarState
      **/
     public boolean addOpenWaypoint(Waypoint newWP)
     {
-        // TODO:  Implement.
-        return false;
+        if(open.containsKey(newWP.getLocation())){
+            if(newWP.getPreviousCost() < open.get(newWP.getLocation()).getPreviousCost())
+            {
+                open.put(newWP.getLocation(), newWP);
+                return true;
+            }
+            return false;
+        }
+        else{
+            open.put(newWP.getLocation(), newWP);
+            return true;
+        }
     }
 
 
     /** Returns the current number of open waypoints. **/
     public int numOpenWaypoints()
     {
-        // TODO:  Implement.
-        return 0;
+        return open.size();
     }
 
 
@@ -114,7 +88,8 @@ public class AStarState
      **/
     public void closeWaypoint(Location loc)
     {
-        // TODO:  Implement.
+        Waypoint wp=open.remove(loc);
+        close.put(loc, wp);
     }
 
     /**
@@ -123,7 +98,6 @@ public class AStarState
      **/
     public boolean isLocationClosed(Location loc)
     {
-        // TODO:  Implement.
-        return false;
+        return close.containsKey(loc);
     }
 }

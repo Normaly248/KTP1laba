@@ -23,16 +23,20 @@ public class Location
     {
         this(0, 0);
     }
-    public int hashcode()
-    {
-        return 37*(37 + this.xCoord)+this.yCoord;
-    }
-    public int equals(Object a)
+
+    @Override
+    public boolean equals(Object a)
     {
         if(a instanceof Location)
         {
             return ((((Location) a).xCoord==this.xCoord) && (((Location) a).yCoord==this.yCoord)) ? true : false;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 37*(37 + this.xCoord)+this.yCoord;
     }
 }
